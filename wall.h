@@ -25,5 +25,6 @@ void UninitWall(void);//I—¹ˆ—
 void UpdateWall(void);//XVˆ—
 void DrawWall(void);//•`‰æˆ—
 void SetWall(D3DXVECTOR3 pos, D3DXVECTOR3 rot,float alpha);
+void CollisionWall(void);
 
 #endif

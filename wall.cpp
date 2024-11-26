@@ -7,6 +7,7 @@
 
 #include "main.h"
 #include "wall.h"
+#include "player.h"
 
 //グローバル変数宣言
 LPDIRECT3DVERTEXBUFFER9 g_pVtxBuffWall = NULL;//頂点バッファへのポインタ
@@ -198,4 +199,90 @@ void SetWall(D3DXVECTOR3 pos, D3DXVECTOR3 rot, float alpha)
 	g_pVtxBuffWall->Unlock();
 }
 
+void CollisionWall(void)
+{
+	Player* pPlayer = GetPlayer();
 
+	//デバイスの取得
+	LPDIRECT3DDEVICE9 pDevice = GetDevice();
+
+	VERTEX_3D* pVtx = NULL;
+	//頂点バッファをロック
+	g_pVtxBuffWall->Lock(0, 0, (void**)&pVtx, 0);
+
+	D3DXMATRIX mtxWorld[4];//ワールドマトリックス
+	D3DXVECTOR3 pos[4];
+
+	//壁ごとの4頂点取得
+	for (int nCntMatrix = 0; nCntMatrix < 4; nCntMatrix++)
+	{
+		D3DXMATRIX mtxRot, mtxTrans;//計算用マトリックス
+
+		//ワールドマトリックスの初期化
+		D3DXMatrixIdentity(&mtxWorld[nCntMatrix]);
+
+		//位置を反映
+		D3DXMatrixTranslation(&mtxTrans, pVtx[nCntMatrix].pos.x, pVtx[nCntMatrix].pos.y, pVtx[nCntMatrix].pos.z);
+		D3DXMatrixMultiply(&mtxWorld[nCntMatrix], &mtxWorld[nCntMatrix], &mtxTrans);
+
+		//ワールド座標行列の設定
+		pDevice->SetTransform(D3DTS_WORLD, &mtxWorld[nCntMatrix]);
+
+		pos[nCntMatrix] = D3DXVECTOR3(mtxWorld[nCntMatrix]._41, mtxWorld[nCntMatrix]._42, mtxWorld[nCntMatrix]._43);
+	}
+
+	//頂点バッファのアンロック
+	g_pVtxBuffWall->Unlock();
+
+	D3DXVECTOR3 aPos[4];
+
+	aPos[0] = D3DXVECTOR3(-150.0f, 0.0f, 150.0f);
+	aPos[1] = D3DXVECTOR3(150.0f, 0.0f, 150.0f);
+	aPos[2] = D3DXVECTOR3(150.0f, 0.0f, -150.0f);
+	aPos[3] = D3DXVECTOR3(-150.0f, 0.0f, 150.0f);
+
+	if (((pos[1].z - pos[0].z) * (pPlayer->posOld.x - pos[0].x)) - ((pos[1].x - pos[0].x) * (pPlayer->posOld.z - pPlayer->size.z * 0.5f - pos[0].z)) > 0)
+	{
+		if (((pos[1].z - pos[0].z) * (pPlayer->pos.x - pos[0].x)) - ((pos[1].x - pos[0].x) * (pPlayer->pos.z + pPlayer->size.z * 0.5f - pos[0].z)) < 0)
+		{
+			if (pos[0].x <= pPlayer->pos.x && pPlayer->pos.x <= pos[1].x)
+			{
+				pPlayer->pos.z = pos[0].z - pPlayer->size.z * 0.5f;
+				pPlayer->move.z = 0.0f;
+			}
+		}
+	}
+
+	//if (aPos[1].x - aPos[0].x * pPlayer->posOld.x - aPos[0].x < 0)
+	//{
+	//	if (aPos[1].z - aPos[0].z * pPlayer->posOld.z - aPos[0].z < 0)
+	//	{
+	//		if (aPos[1].x - aPos[0].x * pPlayer->pos.x - aPos[0].x > 0)
+	//		{
+	//			if (aPos[1].z - aPos[0].z * pPlayer->pos.z - aPos[0].z > 0)
+	//			{
+	//				int nCnt = 0;
+	//			}
+	//		}
+	//	}
+	//}
+
+	//if (((aPos[1].z-aPos[0].z)*(pPlayer->posOld.x-aPos[0].x))- ((aPos[1].x - aPos[0].x) * (pPlayer->posOld.z-pPlayer->size.z*0.5f - aPos[0].z))>0)
+	//{
+	//	if (((aPos[1].z - aPos[0].z) * (pPlayer->pos.x - aPos[0].x)) - ((aPos[1].x - aPos[0].x) * (pPlayer->pos.z + pPlayer->size.z * 0.5f - aPos[0].z)) < 0)
+	//	{
+	//		if (aPos[0].x <= pPlayer->pos.x && pPlayer->pos.x <= aPos[1].x)
+	//		{
+	//			pPlayer->pos.z = aPos[0].z - pPlayer->size.z * 0.5f;
+	//			pPlayer->move.z = 0.0f;
+	//		}
+
+	//		if (aPos[0].z <= pPlayer->pos.z && pPlayer->pos.z <= aPos[1].z)
+	//		{
+	//			pPlayer->pos.x = aPos[0].x - pPlayer->size.x * 0.5f;
+	//			pPlayer->move.x = 0.0f;
+	//		}
+
+	//	}
+	//}
+}

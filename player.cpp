@@ -2,6 +2,7 @@
 #include "input.h"
 #include "shadow.h"
 #include "block.h"
+#include "wall.h"
 //グローバル変数
 LPDIRECT3DTEXTURE9 g_apTexturePlayer[128] = {};
 LPD3DXMESH g_pMeshPlayer = NULL;//メッシュ(頂点情報)へのポインタ
@@ -191,6 +192,7 @@ void UpdatePlayer(void)
 	g_player.pos += g_player.move;
 
 	CollisionBlock();
+	CollisionWall();
 
 
 	//移動量を更新(減衰させる)
