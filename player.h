@@ -8,6 +8,7 @@
 #define _PLAYER_H_	//2重インクルード防止のマクロ定義
 
 #include "main.h"
+#include "model.h"
 
 //プレイヤーの構造体
 typedef struct
@@ -20,6 +21,9 @@ typedef struct
 	D3DXVECTOR3 vtxMinBlock, vtxMaxBlock;
 	D3DXVECTOR3 size;
 	int g_nIdxShadow;
+	D3DXMATRIX mtxWorld;
+	Model aModel[12];//モデル（パーツ)
+	int nNumModel;	//モデル(パーツ)の総数
 }Player;
 
 //プロトタイプ宣言

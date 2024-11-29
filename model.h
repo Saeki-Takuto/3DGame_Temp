@@ -9,6 +9,19 @@
 
 #include "main.h"
 
+//モデルの構造体
+typedef struct
+{
+	LPDIRECT3DTEXTURE9 pTexture[128];
+	LPD3DXMESH pMesh;		//メッシュ(頂点情報)へのポインタ
+	LPD3DXBUFFER pBuffMat;	//マテリアルへのポインタ
+	DWORD dwNumMat;			//マテリアルの数
+	int nIdxModelParent;	//親モデルのインデックス
+	D3DXVECTOR3 pos;		//位置(オフセット)
+	D3DXVECTOR3 rot;		//向き
+	D3DXMATRIX mtxWorld;	//ワールドマトリックス
+}Model;
+
 //プロトタイプ宣言
 void InitModel(void);//初期化処理
 void UninitModel(void);//終了処理

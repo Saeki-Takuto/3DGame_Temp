@@ -151,6 +151,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="meshcylinder.cpp" />
     <ClCompile Include="meshfield.cpp" />
+    <ClCompile Include="model.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="polygon.cpp" />
     <ClCompile Include="shadow.cpp" />
@@ -165,6 +166,7 @@
     <ClInclude Include="main.h" />
     <ClInclude Include="meshcylinder.h" />
     <ClInclude Include="meshfield.h" />
+    <ClInclude Include="model.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="polygon.h" />
     <ClInclude Include="shadow.h" />

@@ -241,17 +241,20 @@ void CollisionWall(void)
 	aPos[2] = D3DXVECTOR3(150.0f, 0.0f, -150.0f);
 	aPos[3] = D3DXVECTOR3(-150.0f, 0.0f, 150.0f);
 
-	if (((pos[1].z - pos[0].z) * (pPlayer->posOld.x - pos[0].x)) - ((pos[1].x - pos[0].x) * (pPlayer->posOld.z - pPlayer->size.z * 0.5f - pos[0].z)) > 0)
-	{
-		if (((pos[1].z - pos[0].z) * (pPlayer->pos.x - pos[0].x)) - ((pos[1].x - pos[0].x) * (pPlayer->pos.z + pPlayer->size.z * 0.5f - pos[0].z)) < 0)
-		{
-			if (pos[0].x <= pPlayer->pos.x && pPlayer->pos.x <= pos[1].x)
-			{
-				pPlayer->pos.z = pos[0].z - pPlayer->size.z * 0.5f;
-				pPlayer->move.z = 0.0f;
-			}
-		}
-	}
+	float hoge = sinf(D3DX_PI);
+	float ham = sinf(D3DX_PI * 0.5f);
+
+	//if (((pos[1].z - pos[0].z) * (pPlayer->posOld.x - pos[0].x)) - ((pos[1].x - pos[0].x) * (pPlayer->posOld.z - pPlayer->size.z * 0.5f - pos[0].z)) > 0)
+	//{
+	//	if (((pos[1].z - pos[0].z) * (pPlayer->pos.x - pos[0].x)) - ((pos[1].x - pos[0].x) * (pPlayer->pos.z + pPlayer->size.z * 0.5f - pos[0].z)) < 0)
+	//	{
+	//		if (pos[0].x <= pPlayer->pos.x && pPlayer->pos.x <= pos[1].x)
+	//		{
+	//			pPlayer->pos.z = pos[0].z - pPlayer->size.z * 0.5f;
+	//			pPlayer->move.z = 0.0f;
+	//		}
+	//	}
+	//}
 
 	//if (aPos[1].x - aPos[0].x * pPlayer->posOld.x - aPos[0].x < 0)
 	//{
@@ -267,22 +270,21 @@ void CollisionWall(void)
 	//	}
 	//}
 
-	//if (((aPos[1].z-aPos[0].z)*(pPlayer->posOld.x-aPos[0].x))- ((aPos[1].x - aPos[0].x) * (pPlayer->posOld.z-pPlayer->size.z*0.5f - aPos[0].z))>0)
-	//{
-	//	if (((aPos[1].z - aPos[0].z) * (pPlayer->pos.x - aPos[0].x)) - ((aPos[1].x - aPos[0].x) * (pPlayer->pos.z + pPlayer->size.z * 0.5f - aPos[0].z)) < 0)
-	//	{
-	//		if (aPos[0].x <= pPlayer->pos.x && pPlayer->pos.x <= aPos[1].x)
-	//		{
-	//			pPlayer->pos.z = aPos[0].z - pPlayer->size.z * 0.5f;
-	//			pPlayer->move.z = 0.0f;
-	//		}
+	if (((aPos[1].z-aPos[0].z)*(pPlayer->posOld.x-aPos[0].x))- ((aPos[1].x - aPos[0].x) * (pPlayer->posOld.z-pPlayer->size.z*0.5f - aPos[0].z))>0)
+	{
+		if (((aPos[1].z - aPos[0].z) * (pPlayer->pos.x - aPos[0].x)) - ((aPos[1].x - aPos[0].x) * (pPlayer->pos.z + pPlayer->size.z * 0.5f - aPos[0].z)) < 0)
+		{
+			if (aPos[0].x <= pPlayer->pos.x && pPlayer->pos.x <= aPos[1].x)
+			{
+				pPlayer->pos.z = aPos[0].z - pPlayer->size.z * 0.5f;
+				pPlayer->move.z = 0.0f;
+			}
 
-	//		if (aPos[0].z <= pPlayer->pos.z && pPlayer->pos.z <= aPos[1].z)
-	//		{
-	//			pPlayer->pos.x = aPos[0].x - pPlayer->size.x * 0.5f;
-	//			pPlayer->move.x = 0.0f;
-	//		}
-
-	//	}
-	//}
+			if (aPos[0].z <= pPlayer->pos.z && pPlayer->pos.z <= aPos[1].z)
+			{
+				pPlayer->pos.x = aPos[0].x - pPlayer->size.x * 0.5f;
+				pPlayer->move.x = 0.0f;
+			}
+		}
+	}
 }
